@@ -43,6 +43,7 @@ withDefaults(
                                     value: tenant.id,
                                 },
                             ]"
+                            :key="tf.label"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"

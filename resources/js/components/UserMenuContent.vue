@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
-import { LogOut, Settings } from 'lucide-vue-next';
+import { router } from '@inertiajs/vue3';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,

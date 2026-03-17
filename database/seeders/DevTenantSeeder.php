@@ -22,7 +22,7 @@ class DevTenantSeeder extends Seeder
         // $demo_tenant->domains()->create(['domain' => $demo_id . '.localhost']);
 
         User::create([
-            'name' => 'admin-' . $demo_id,
+            'name' => 'admin-'.$demo_id,
             'email' => 'admin-'.$demo_id.'@ecom.app',
             'password' => 'admin',
         ]);

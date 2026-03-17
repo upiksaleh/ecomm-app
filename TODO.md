@@ -17,22 +17,22 @@
 #### Central Auth
 - [x] Create central User model
 - [x] Setup central login
-- [ ] Setup central register
-- [ ] Setup email verification
-- [ ] Setup password reset
+- [ ] Setup central register (optional)
+- [ ] Setup email verification (optional)
+- [ ] Setup password reset (optional)
 - [x] Protect central dashboard
 
 #### Tenant Auth
 - [x] Create tenant User model
 - [x] Configure tenant auth guard
 - [x] Setup tenant login
-- [ ] Setup tenant register
-- [ ] Setup tenant email verification
-- [ ] Setup tenant password reset
+- [ ] Setup tenant register (optional)
+- [ ] Setup tenant email verification (optional)
+- [ ] Setup tenant password reset (optional)
 - [x] Protect tenant dashboard
 
 ### Tenant Onboarding System
-- [ ] Create tenant registration flow
+- [ ] Create tenant registration flow (optional)
 - [x] Create tenant database automatically
 - [x] Run tenant migrations on creation
 - [x] Assign tenant domain/subdomain
@@ -50,21 +50,21 @@
 - [x] Product delete feature
 
 ### Shopping Cart System
-- [ ] Create Cart model
-- [ ] Create CartItem model
-- [ ] Add to cart feature
-- [ ] Remove item feature
-- [ ] Update quantity feature
-- [ ] Calculate cart totals
-- [ ] Store cart in database/session
-- [ ] Cart page UI
+- [x] Create Cart model
+- [x] Create CartItem model
+- [x] Add to cart feature
+- [x] Remove item feature
+- [x] Update quantity feature
+- [x] Calculate cart totals
+- [x] Store cart in database
+- [x] Cart page UI
 
 ### Tenant Frontend
 - [x] Tenant dashboard UI
 - [x] Product management UI
-- [ ] Store product listing UI
-- [ ] Shopping cart UI
-- [ ] Basic checkout UI
+- [x] Store product listing UI
+- [x] Shopping cart UI
+- [x] Basic checkout UI
 
 ### Database Isolation
 - [x] Dynamic tenant database switching

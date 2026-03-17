@@ -21,6 +21,7 @@ declare module '@inertiajs/core' {
             tenant?: ITenant;
             name: string;
             auth: Auth;
+            cart_count: number;
             sidebarOpen: boolean;
             [key: string]: unknown;
         };

@@ -43,9 +43,22 @@ class HandleInertiaRequests extends Middleware
             'app_type' => $guard,
             'auth' => [
                 'user' => $request->user($guard),
+                'customer' => tenant() ? $request->user('customer') : null,
             ],
             'tenant' => tenant(),
+            'cart_count' => $this->cartCount($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
+    }
+
+    private function cartCount(Request $request): int
+    {
+        if (! tenant() || ! $request->user('customer')) {
+            return 0;
+        }
+
+        $cart = $request->user('customer')->cart;
+
+        return $cart ? (int) $cart->items()->sum('quantity') : 0;
     }
 }

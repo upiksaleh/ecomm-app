@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import { Button } from '@/components/ui/button';
-import type { BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import product_routes from '@/routes/tenant/products';
+import type { BreadcrumbItem } from '@/types';
 const props = defineProps<{ product: any }>();
 
 const breadcrumbs: BreadcrumbItem[] = [

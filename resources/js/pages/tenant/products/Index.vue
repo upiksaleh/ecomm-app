@@ -1,21 +1,24 @@
 <script setup lang="ts">
-import { Head, Link, Form } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/tenant/AppLayout.vue';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import type { BreadcrumbItem } from '@/types';
-import product_routes from '@/routes/tenant/products';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { TrashIcon, EyeIcon, PencilIcon } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
 import PaginationContent from '@/components/ui/pagination/PaginationContent.vue';
-import PaginationPrevious from '@/components/ui/pagination/PaginationPrevious.vue';
-import PaginationItem from '@/components/ui/pagination/PaginationItem.vue';
 import PaginationNext from '@/components/ui/pagination/PaginationNext.vue';
-import PaginationEllipsis from '@/components/ui/pagination/PaginationEllipsis.vue';
+import PaginationPrevious from '@/components/ui/pagination/PaginationPrevious.vue';
+import AppLayout from '@/layouts/tenant/AppLayout.vue';
+import product_routes from '@/routes/tenant/products';
+import type { BreadcrumbItem } from '@/types';
 const props = defineProps<{ products: any }>();
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Products', href: '' }];
+
+function deleteProduct(id: string) {
+    if (confirm('Delete this product? This action cannot be undone.')) {
+        router.delete(product_routes.destroy.url(id));
+    }
+}
 </script>
 
 <template>
@@ -78,25 +81,16 @@ const breadcrumbs: BreadcrumbItem[] = [{ title: 'Products', href: '' }];
                                 >
                                     <PencilIcon />
                                 </Link>
-
-                                <Form
-                                    v-bind="
-                                        product_routes.destroy.form(product.id)
-                                    "
-                                    class="inline"
-                                    v-slot="{ processing }"
+                                <Link
+                                    :as="Button"
+                                    variant="destructive"
+                                    size="sm"
+                                    aria-label="Delete"
+                                    title="Delete"
+                                    @click="deleteProduct(product.id)"
                                 >
-                                    <Button
-                                        type="submit"
-                                        :disabled="processing"
-                                        variant="destructive"
-                                        size="sm"
-                                        aria-label="Delete"
-                                        title="Delete"
-                                    >
-                                        <TrashIcon />
-                                    </Button>
-                                </Form>
+                                    <TrashIcon />
+                                </Link>
                             </ButtonGroup>
                         </td>
                     </tr>
@@ -113,12 +107,11 @@ const breadcrumbs: BreadcrumbItem[] = [{ title: 'Products', href: '' }];
         </div>
         <div class="flex flex-col gap-6">
             <Pagination
-                v-slot="{ page }"
                 :items-per-page="10"
                 :total="props.products.last_page"
                 :default-page="2"
             >
-                <PaginationContent v-slot="{ items }">
+                <PaginationContent>
                     <Link
                         v-if="props.products.prev_page_url"
                         :href="props.products.prev_page_url"

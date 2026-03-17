@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Head, Form, Link } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import type { BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import product_routes from '@/routes/tenant/products';
+import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Products', href: '/products' },

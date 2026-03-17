@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid } from 'lucide-vue-next';
+import { LayoutGrid, Users } from 'lucide-vue-next';
 import AppContent from '@/components/AppContent.vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppShell from '@/components/AppShell.vue';
@@ -18,6 +18,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import central_routes from '@/routes/central';
+import tenant_routes from '@/routes/central/tenants';
 import type { BreadcrumbItem } from '@/types';
 import type { NavItem } from '@/types';
 
@@ -26,6 +27,11 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: central_routes.dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Tenants',
+        href: tenant_routes.index(),
+        icon: Users,
     },
 ];
 

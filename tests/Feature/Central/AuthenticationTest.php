@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Central\User;
+
 test('central login can authenticate existing user', function () {
-    $user = \App\Models\Central\User::create([
+    $user = User::create([
         'email' => fake()->email(),
-        'name'=>fake()->name(),
+        'name' => fake()->name(),
         'password' => bcrypt('password'),
     ]);
 
@@ -17,9 +19,9 @@ test('central login can authenticate existing user', function () {
 });
 
 test('central login fails with invalid credentials', function () {
-    $user = \App\Models\Central\User::create([
+    $user = User::create([
         'email' => fake()->email(),
-        'name'=>fake()->name(),
+        'name' => fake()->name(),
         'password' => bcrypt('password'),
     ]);
 
@@ -35,9 +37,9 @@ test('central login fails with invalid credentials', function () {
 });
 
 test('central route authenticated dashboard screen can be rendered', function () {
-    $user = \App\Models\Central\User::create([
+    $user = User::create([
         'email' => fake()->email(),
-        'name'=>fake()->name(),
+        'name' => fake()->name(),
         'password' => bcrypt('password'),
     ]);
 

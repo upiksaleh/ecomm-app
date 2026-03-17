@@ -23,7 +23,9 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is '.tenant('id');
+    Route::name('tenant.')->group(function () {
+        Route::middleware(['guest'])->group(function () {
+            Route::inertia('/', 'tenant/Home')->name('home');
+        });
     });
 });

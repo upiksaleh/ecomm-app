@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
-import AppLayout from '@/layouts/central/AppLayout.vue';
-// import { dashboard } from '@/routes/central';
+import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,6 +16,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <div class="mb-4 flex justify-end">
+            <a
+                href="/products"
+                class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                >Manage Products</a
+            >
+        </div>
         <div
             class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >

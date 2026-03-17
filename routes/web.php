@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Central\AuthController;
 use App\Http\Middleware\Authenticate as CentralAuthenticate;
-use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 
 Route::aliasMiddleware('auth', CentralAuthenticate::class);

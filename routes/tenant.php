@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\AuthController;
+use App\Http\Controllers\Tenant\ProductController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -34,6 +35,9 @@ Route::middleware([
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
             Route::inertia('/dashboard', 'tenant/Dashboard')->name('dashboard');
+
+            // Tenant product management CRUD
+            Route::resource('products', ProductController::class)->names('products');
         });
     });
 });

@@ -81,8 +81,8 @@
 - [x] Laravel project structure cleanup
 - [ ] Service layer structure (optional best practice)
 - [ ] Repository pattern (optional)
-- [ ] API resource responses
-- [ ] Global exception handler
+- [ ] API resource responses (optional)
+- [x] Global exception handler
 
 ### Frontend Setup
 - [x] Vue 3 setup with Inertia
@@ -92,34 +92,26 @@
 - [x] Flash messages
 - [x] Error pages
 
-### Multi Database Connection
-- [ ] Configure tenant connection resolver
-- [ ] Tenant database config template
-- [ ] Handle connection switching
-- [ ] Test connection switching
-- [ ] Handle queue tenant context (optional)
-
 ---
 
 ## Security
-- [ ] Request validation
-- [ ] Authorization policies
-- [ ] Role system (admin/customer)
-- [ ] Prevent mass assignment issues
-- [ ] Secure file upload
-- [ ] XSS protection
-- [ ] CSRF protection
+- [x] Request validation
+- [x] Role system (admin/customer)
+- [x] Prevent mass assignment issues
+- [x] XSS protection
+- [x] CSRF protection
+- [x] SQL Injection
 
 ---
 
 ## Testing
-- [ ] Tenant creation test
-- [ ] Tenant database test
-- [ ] Auth test
-- [ ] Product CRUD test
-- [ ] Cart test
-- [ ] Feature tests
-- [ ] Isolation tests
+- [x] Tenant creation test
+- [x] Tenant database test
+- [x] Auth test
+- [x] Product CRUD test
+- [x] Cart test
+- [x] Feature tests
+- [x] Isolation tests
 
 ---
 

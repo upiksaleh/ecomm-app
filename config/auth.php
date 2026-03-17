@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\User;
+use App\Models\Central\User as CentralUser;
+use App\Models\Tenant\User as TenantUser;
 
 return [
 
@@ -16,8 +17,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => env('AUTH_GUARD', 'central'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'central_users'),
     ],
 
     /*
@@ -38,9 +39,13 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'central' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'central_users',
+        ],
+        'tenant' => [
+            'driver' => 'session',
+            'provider' => 'tenant_users',
         ],
     ],
 
@@ -62,15 +67,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'central_users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => env('AUTH_MODEL_CENTRAL', CentralUser::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'tenant_users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL_TENANT', TenantUser::class),
+        ],
     ],
 
     /*
@@ -93,8 +97,14 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'central_users' => [
+            'provider' => 'central_users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'tenant_users' => [
+            'provider' => 'tenant_users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

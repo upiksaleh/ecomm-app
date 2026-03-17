@@ -10,7 +10,7 @@ import product_routes from '@/routes/tenant/products';
 import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Products', href: '/products' },
+    { title: 'Products', href: product_routes.index() },
     { title: 'Create', href: '' },
 ];
 </script>
@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div
-            class="max-w-3xl space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+            class="m-4 max-w-2xl space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
         >
             <h1 class="text-xl font-semibold">Create Product</h1>
 
@@ -30,56 +30,93 @@ const breadcrumbs: BreadcrumbItem[] = [
                 class="space-y-4"
             >
                 <div>
-                    <Label for="name">Name</Label>
-                    <Input id="name" name="name" required />
+                    <Label for="name">
+                        Name <span class="text-destructive">*</span>
+                    </Label>
+                    <Input
+                        id="name"
+                        name="name"
+                        placeholder="e.g. Wireless Headphone"
+                        required
+                    />
                     <InputError :message="errors.name" />
                 </div>
 
                 <div>
-                    <Label for="sku">SKU</Label>
-                    <Input id="sku" name="sku" required />
+                    <Label for="sku">
+                        SKU <span class="text-destructive">*</span>
+                    </Label>
+                    <Input
+                        id="sku"
+                        name="sku"
+                        placeholder="e.g. WH-1000XM5"
+                        required
+                    />
+                    <p class="mt-1 text-xs text-muted-foreground">
+                        Stock Keeping Unit — must be unique across all products.
+                    </p>
                     <InputError :message="errors.sku" />
                 </div>
 
                 <div>
                     <Label for="description">Description</Label>
-                    <Input id="description" name="description" />
+                    <Input
+                        id="description"
+                        name="description"
+                        placeholder="Short product description (optional)"
+                    />
                     <InputError :message="errors.description" />
                 </div>
 
-                <div>
-                    <Label for="price">Price</Label>
-                    <Input
-                        id="price"
-                        name="price"
-                        type="number"
-                        step="0.01"
-                        required
-                    />
-                    <InputError :message="errors.price" />
-                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <Label for="price">
+                            Price <span class="text-destructive">*</span>
+                        </Label>
+                        <Input
+                            id="price"
+                            name="price"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="0"
+                            required
+                        />
+                        <InputError :message="errors.price" />
+                    </div>
 
-                <div>
-                    <Label for="quantity">Quantity</Label>
-                    <Input
-                        id="quantity"
-                        name="quantity"
-                        type="number"
-                        min="0"
-                        required
-                    />
-                    <InputError :message="errors.quantity" />
+                    <div>
+                        <Label for="quantity">
+                            Quantity <span class="text-destructive">*</span>
+                        </Label>
+                        <Input
+                            id="quantity"
+                            name="quantity"
+                            type="number"
+                            min="0"
+                            placeholder="0"
+                            required
+                        />
+                        <InputError :message="errors.quantity" />
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <Checkbox id="active" name="active" :default-value="true" />
                     <Label for="active">Active</Label>
+                    <InputError :message="errors.active" />
                 </div>
 
-                <div class="flex gap-2 pt-3">
-                    <Button type="submit" :disabled="processing">Save</Button>
+                <div
+                    class="flex gap-2 border-t border-sidebar-border/70 pt-4 dark:border-sidebar-border"
+                >
+                    <Button type="submit" :disabled="processing">
+                        Create Product
+                    </Button>
                     <Link :href="product_routes.index()">
-                        <Button variant="secondary">Cancel</Button>
+                        <Button type="button" variant="secondary">
+                            Cancel
+                        </Button>
                     </Link>
                 </div>
             </Form>

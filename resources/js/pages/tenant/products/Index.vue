@@ -10,11 +10,12 @@ import PaginationPrevious from '@/components/ui/pagination/PaginationPrevious.vu
 import AppLayout from '@/layouts/tenant/AppLayout.vue';
 import product_routes from '@/routes/tenant/products';
 import type { BreadcrumbItem } from '@/types';
+
 const props = defineProps<{ products: any }>();
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Products', href: '' }];
 
-function deleteProduct(id: string) {
+function deleteProduct(id: number) {
     if (confirm('Delete this product? This action cannot be undone.')) {
         router.delete(product_routes.destroy.url(id));
     }
@@ -39,12 +40,12 @@ function deleteProduct(id: string) {
                     class="bg-slate-50 text-xs text-slate-500 uppercase dark:bg-slate-900 dark:text-slate-300"
                 >
                     <tr>
-                        <th class="px-4 py-2">Name</th>
-                        <th class="px-4 py-2">SKU</th>
-                        <th class="px-4 py-2">Price</th>
-                        <th class="px-4 py-2">Quantity</th>
-                        <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Actions</th>
+                        <th class="px-4 py-3">Name</th>
+                        <th class="px-4 py-3">SKU</th>
+                        <th class="px-4 py-3">Price</th>
+                        <th class="px-4 py-3">Qty</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,15 +54,40 @@ function deleteProduct(id: string) {
                         :key="product.id"
                         class="border-t border-slate-200 dark:border-slate-800"
                     >
-                        <td class="px-4 py-2">{{ product.name }}</td>
-                        <td class="px-4 py-2">{{ product.sku }}</td>
-                        <td class="px-4 py-2">{{ product.price }}</td>
-                        <td class="px-4 py-2">{{ product.quantity }}</td>
-                        <td class="px-4 py-2">
-                            {{ product.active ? 'Active' : 'Inactive' }}
+                        <td class="px-4 py-2 font-medium">
+                            {{ product.name }}
                         </td>
-                        <td class="space-x-2 px-4 py-2">
-                            <ButtonGroup class="" size="sm">
+                        <td
+                            class="px-4 py-2 font-mono text-xs text-muted-foreground"
+                        >
+                            {{ product.sku }}
+                        </td>
+                        <td class="px-4 py-2">
+                            {{
+                                Number(product.price).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    minimumFractionDigits: 2,
+                                })
+                            }}
+                        </td>
+                        <td class="px-4 py-2">
+                            {{ product.quantity }}
+                        </td>
+                        <td class="px-4 py-2">
+                            <span
+                                :class="[
+                                    'inline-block rounded-full px-2 py-0.5 text-xs font-medium',
+                                    product.active
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400'
+                                        : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400',
+                                ]"
+                            >
+                                {{ product.active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">
+                            <ButtonGroup size="sm">
                                 <Link
                                     :as="Button"
                                     size="sm"
@@ -75,14 +101,13 @@ function deleteProduct(id: string) {
                                     :as="Button"
                                     variant="secondary"
                                     size="sm"
-                                    aria-label="Show"
-                                    title="Show"
+                                    aria-label="Edit"
+                                    title="Edit"
                                     :href="product_routes.edit(product.id)"
                                 >
                                     <PencilIcon />
                                 </Link>
-                                <Link
-                                    :as="Button"
+                                <Button
                                     variant="destructive"
                                     size="sm"
                                     aria-label="Delete"
@@ -90,7 +115,7 @@ function deleteProduct(id: string) {
                                     @click="deleteProduct(product.id)"
                                 >
                                     <TrashIcon />
-                                </Link>
+                                </Button>
                             </ButtonGroup>
                         </td>
                     </tr>
@@ -105,29 +130,32 @@ function deleteProduct(id: string) {
                 </tbody>
             </table>
         </div>
-        <div class="flex flex-col gap-6">
+
+        <div class="m-4 flex items-center gap-2">
             <Pagination
-                :items-per-page="10"
+                :items-per-page="15"
                 :total="props.products.last_page"
-                :default-page="2"
+                :default-page="props.products.current_page"
             >
                 <PaginationContent>
                     <Link
                         v-if="props.products.prev_page_url"
                         :href="props.products.prev_page_url"
                         class="mr-2"
-                        ><PaginationPrevious
-                    /></Link>
-                    <span
-                        >{{ props.products.current_page }} /
-                        {{ props.products.last_page }}</span
                     >
+                        <PaginationPrevious />
+                    </Link>
+                    <span class="text-sm text-muted-foreground">
+                        {{ props.products.current_page }} /
+                        {{ props.products.last_page }}
+                    </span>
                     <Link
                         v-if="props.products.next_page_url"
                         :href="props.products.next_page_url"
                         class="ml-2"
-                        ><PaginationNext
-                    /></Link>
+                    >
+                        <PaginationNext />
+                    </Link>
                 </PaginationContent>
             </Pagination>
         </div>

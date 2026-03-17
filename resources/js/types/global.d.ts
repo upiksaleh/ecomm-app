@@ -1,4 +1,5 @@
 import type { Auth } from '@/types/auth';
+import type { ITenant } from '@/types/tenant';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -16,6 +17,8 @@ declare module 'vite/client' {
 declare module '@inertiajs/core' {
     export interface InertiaConfig {
         sharedPageProps: {
+            app_type: 'central' | 'tenant';
+            tenant?: ITenant;
             name: string;
             auth: Auth;
             sidebarOpen: boolean;

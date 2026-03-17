@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { ITenant } from '@/types';
+import type { ITenant } from '@/types';
 
 withDefaults(
     defineProps<{
@@ -10,7 +10,6 @@ withDefaults(
         tenant: null,
     },
 );
-
 </script>
 
 <template>
@@ -32,17 +31,19 @@ withDefaults(
                 >
                     <h1 class="mb-1 font-medium">TENANT</h1>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                        Manage tenant store from the tenant application. View and manage products, orders and more.
+                        Manage tenant store from the tenant application. View
+                        and manage products, orders and more.
                     </p>
                     <ul class="mb-4 flex flex-col lg:mb-6" v-if="tenant">
-
                         <li
                             class="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
-                            v-for="tf in [{
-                                label: 'Tenant ID',
-                                value: tenant.id,
-                            }]"
-                            >
+                            v-for="tf in [
+                                {
+                                    label: 'Tenant ID',
+                                    value: tenant.id,
+                                },
+                            ]"
+                        >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"
                             >

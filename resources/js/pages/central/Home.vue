@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import central_routes from '@/routes/central';
 </script>
 
 <template>
@@ -21,18 +22,26 @@ import { Head } from '@inertiajs/vue3';
                 >
                     <h1 class="mb-1 font-medium">CENTRAL</h1>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                        Manage tenants from the central application. Create, update and delete tenants, manage their domains and more.
+                        Manage tenants from the central application. Create,
+                        update and delete tenants, manage their domains and
+                        more.
                     </p>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a
-                                href="/login"
-                                class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
-                            >
-                                Login
-                            </a>
-                        </li>
-                    </ul>
+                    <Link
+                        v-if="$page.props.auth.user"
+                        :href="central_routes.dashboard()"
+                        class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                    >
+                        Dashboard
+                    </Link>
+
+                    <template v-else>
+                        <Link
+                            :href="central_routes.login()"
+                            class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
+                        >
+                            Log in
+                        </Link>
+                    </template>
                 </div>
                 <div
                     class="relative -mb-px aspect-335/376 w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-r-lg dark:bg-[#1D0002]"

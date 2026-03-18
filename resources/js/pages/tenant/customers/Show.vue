@@ -53,7 +53,6 @@ function formatDate(dateString: string): string {
 function getVerificationStatus(): string {
     return props.customer.email_verified_at ? 'Verified' : 'Unverified';
 }
-
 </script>
 
 <template>

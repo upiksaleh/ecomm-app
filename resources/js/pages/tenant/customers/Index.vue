@@ -121,8 +121,8 @@ function isSorted(column: string): boolean {
 
 function getSortIcon(column: string) {
     if (!isSorted(column)) {
-return null;
-}
+        return null;
+    }
 
     return props.filters.direction === 'asc' ? ArrowUpIcon : ArrowDownIcon;
 }

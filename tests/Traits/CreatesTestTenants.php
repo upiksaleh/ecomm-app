@@ -124,13 +124,13 @@ trait CreatesTestTenants
                 [$dbName]
             );
 
-            return !empty($exists);
+            return ! empty($exists);
         }
 
         if ($default === 'pgsql') {
             $exists = DB::select('SELECT 1 FROM pg_database WHERE datname = ?', [$dbName]);
 
-            return !empty($exists);
+            return ! empty($exists);
         }
 
         return false;
@@ -337,11 +337,13 @@ trait CreatesTestTenants
                 ', [$dbName]);
 
                 DB::statement('DROP DATABASE IF EXISTS "'.$dbName.'"');
+
                 return;
             }
 
             if (in_array($default, ['mysql', 'mariadb'], true)) {
                 DB::statement('DROP DATABASE IF EXISTS `'.$dbName.'`');
+
                 return;
             }
 
@@ -351,4 +353,3 @@ trait CreatesTestTenants
         }
     }
 }
-

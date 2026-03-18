@@ -2,7 +2,6 @@
 
 use App\Models\Central\User;
 use App\Models\Tenant;
-use Illuminate\Support\Facades\DB;
 use Tests\Traits\CreatesTestTenants;
 
 uses(CreatesTestTenants::class);

@@ -17,15 +17,15 @@ class DevTenantSeeder extends Seeder
     {
         $dev_id = 'dev';
         $dev_tenant = Tenant::create(['id' => $dev_id]);
-        $dev_tenant->domains()->create(['domain' => $dev_id . '.localhost']);
-        
+        $dev_tenant->domains()->create(['domain' => $dev_id.'.localhost']);
+
         tenancy()->initialize($dev_tenant);
         User::create([
             'name' => 'admin-'.$dev_id,
             'email' => 'admin-'.$dev_id.'@ecom.app',
             'password' => 'admin',
         ]);
-        
+
         for ($i = 1; $i <= 100; $i++) {
             Product::create([
                 'name' => 'Sample Product '.$i,

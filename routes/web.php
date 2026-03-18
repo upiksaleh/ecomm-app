@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Central\AuthController;
+use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Http\Middleware\Authenticate as CentralAuthenticate;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -27,7 +28,7 @@ foreach (config('tenancy.central_domains') as $domain) {
             Route::middleware(['auth:central', 'verified'])->group(function () {
                 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-                Route::inertia('/dashboard', 'central/Dashboard')->name('dashboard');
+                Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
                 // Central tenant management CRUD
                 Route::resource('tenants', TenantController::class)->names('tenants');

@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $current_app_env = env('APP_ENV', 'local');
+        if ($current_app_env !== 'production' || $current_app_env !== 'prod') {
+            $middleware->trustProxies(at: '*');
+        }
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,

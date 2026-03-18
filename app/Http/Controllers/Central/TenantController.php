@@ -16,6 +16,14 @@ class TenantController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
+        // Append counts to each tenant
+        $tenants->getCollection()->transform(function ($tenant) {
+            $tenant->products_count = $tenant->products_count;
+            $tenant->customers_count = $tenant->customers_count;
+
+            return $tenant;
+        });
+
         return inertia('central/tenants/Index', compact('tenants'));
     }
 

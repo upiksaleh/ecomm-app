@@ -54,6 +54,8 @@ function deleteTenant(id: string) {
                     <tr>
                         <th class="px-4 py-3">ID</th>
                         <th class="px-4 py-3">Domain</th>
+                        <th class="px-4 py-3">Products</th>
+                        <th class="px-4 py-3">Customers</th>
                         <th class="px-4 py-3">Created</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>
@@ -83,6 +85,12 @@ function deleteTenant(id: string) {
                                 </span>
                             </span>
                             <span v-else class="text-muted-foreground">—</span>
+                        </td>
+                        <td class="px-4 py-2 text-center text-muted-foreground">
+                            {{ tenant.products_count ?? 0 }}
+                        </td>
+                        <td class="px-4 py-2 text-center text-muted-foreground">
+                            {{ tenant.customers_count ?? 0 }}
                         </td>
                         <td class="px-4 py-2 text-muted-foreground">
                             {{
@@ -125,7 +133,7 @@ function deleteTenant(id: string) {
                     </tr>
                     <tr v-if="props.tenants.data.length === 0">
                         <td
-                            colspan="4"
+                            colspan="6"
                             class="px-4 py-10 text-center text-muted-foreground"
                         >
                             No tenants yet.

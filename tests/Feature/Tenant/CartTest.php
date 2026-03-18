@@ -80,12 +80,13 @@ test('cart page shows existing items for authenticated customer', function () {
         ->get($this->tenantUrl($tenant, '/cart'));
 
     $response->assertOk();
+
     $response->assertInertia(
         fn ($page) => $page
             ->component('tenant/cart/Index')
             ->where('cart.items.0.product.name', 'Test Item')
             ->where('cart.items.0.quantity', 2)
-            ->where('cart.items.0.price', '20.00')
+            ->where('cart.items.0.price', fn ($price) => (float) $price === 20.00)
             ->where('cart.items.0.subtotal', 40)
             ->where('cart.total', 40)
     );

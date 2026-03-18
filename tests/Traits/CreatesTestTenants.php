@@ -91,6 +91,10 @@ trait CreatesTestTenants
      */
     protected function createTenant(string $id, string $domain): Tenant
     {
+        // Always drop any pre-existing tenant database before creating a new
+        // tenant, otherwise retries on the same ID may hit "database exists".
+        $this->dropTenantDatabase($id);
+
         $tenant = Tenant::create(['id' => $id]);
         $tenant->domains()->create(['domain' => $domain]);
 
@@ -100,6 +104,41 @@ trait CreatesTestTenants
         $this->createdTenantIds[] = $id;
 
         return $tenant;
+    }
+
+    protected function tenantDatabaseExists(string $tenantId): bool
+    {
+        $prefix = config('tenancy.database.prefix', 'tenant_');
+        $suffix = config('tenancy.database.suffix', '_db');
+        $dbName = $prefix.$tenantId.$suffix;
+
+        $default = config('database.default', 'sqlite');
+
+        if ($default === 'sqlite') {
+            return file_exists(database_path($dbName));
+        }
+
+        if (in_array($default, ['mysql', 'mariadb'], true)) {
+            $exists = DB::select(
+                'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?',
+                [$dbName]
+            );
+
+            return !empty($exists);
+        }
+
+        if ($default === 'pgsql') {
+            $exists = DB::select('SELECT 1 FROM pg_database WHERE datname = ?', [$dbName]);
+
+            return !empty($exists);
+        }
+
+        return false;
+    }
+
+    protected function tenantDatabaseMissing(string $tenantId): bool
+    {
+        return ! $this->tenantDatabaseExists($tenantId);
     }
 
     /**
@@ -275,19 +314,41 @@ trait CreatesTestTenants
         $suffix = config('tenancy.database.suffix', '_db');
         $dbName = $prefix.$tenantId.$suffix;
 
-        try {
-            // PostgreSQL: terminate active connections first.
-            DB::statement('
-                SELECT pg_terminate_backend(pid)
-                FROM   pg_stat_activity
-                WHERE  datname = ?
-                AND    pid <> pg_backend_pid()
-            ', [$dbName]);
+        $default = config('database.default', 'sqlite');
 
-            DB::statement('DROP DATABASE IF EXISTS "'.$dbName.'"');
+        if ($default === 'sqlite') {
+            $path = database_path($dbName);
+
+            if (file_exists($path)) {
+                @unlink($path);
+            }
+
+            return;
+        }
+
+        try {
+            if ($default === 'pgsql') {
+                // PostgreSQL: terminate active connections first.
+                DB::statement('
+                    SELECT pg_terminate_backend(pid)
+                    FROM   pg_stat_activity
+                    WHERE  datname = ?
+                    AND    pid <> pg_backend_pid()
+                ', [$dbName]);
+
+                DB::statement('DROP DATABASE IF EXISTS "'.$dbName.'"');
+                return;
+            }
+
+            if (in_array($default, ['mysql', 'mariadb'], true)) {
+                DB::statement('DROP DATABASE IF EXISTS `'.$dbName.'`');
+                return;
+            }
+
+            // Unknown driver: do nothing (safe fallback).
         } catch (\Throwable) {
-            // Silently ignore — the DB may never have been created (e.g. the
-            // test failed before Tenant::create() completed).
+            // Silently ignore — the DB may never have been created.
         }
     }
 }
+

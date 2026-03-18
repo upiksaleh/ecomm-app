@@ -243,16 +243,8 @@ test('deleting a tenant removes its database', function () {
     // Seed something in the tenant DB.
     $this->asTenant($tenant, fn () => Product::factory()->count(2)->create());
 
-    $prefix = config('tenancy.database.prefix', 'tenant_');
-    $suffix = config('tenancy.database.suffix', '_db');
-    $dbName = $prefix.$tenantId.$suffix;
-
     // Confirm the DB exists.
-    $exists = DB::select(
-        'SELECT 1 FROM pg_database WHERE datname = ?',
-        [$dbName]
-    );
-    expect($exists)->not->toBeEmpty();
+    expect($this->tenantDatabaseExists($tenantId))->toBeTrue();
 
     // Delete the tenant — this triggers DeleteDatabase synchronously.
     $tenant->delete();
@@ -263,11 +255,7 @@ test('deleting a tenant removes its database', function () {
         fn ($id) => $id !== $tenantId,
     );
 
-    $exists = DB::select(
-        'SELECT 1 FROM pg_database WHERE datname = ?',
-        [$dbName]
-    );
-    expect($exists)->toBeEmpty();
+    expect($this->tenantDatabaseMissing($tenantId))->toBeTrue();
 });
 
 test('two tenants with the same product SKU remain independent', function () {

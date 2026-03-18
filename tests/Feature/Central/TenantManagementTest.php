@@ -138,8 +138,9 @@ test('admin can create a tenant with valid data', function () {
     $response->assertSessionHas('success');
 
     expect(Tenant::find('new-store'))->not->toBeNull();
-
     $this->createdTenantIds[] = 'new-store';
+    expect($this->tenantDatabaseExists('new-store'))->toBeTrue();
+
 });
 
 test('creating a tenant provisions its database', function () {
@@ -153,13 +154,7 @@ test('creating a tenant provisions its database', function () {
 
     $this->createdTenantIds[] = 'db-provision';
 
-    $prefix = config('tenancy.database.prefix', 'tenant_');
-    $suffix = config('tenancy.database.suffix', '_db');
-    $dbName = $prefix.'db-provision'.$suffix;
-
-    $exists = DB::select('SELECT 1 FROM pg_database WHERE datname = ?', [$dbName]);
-
-    expect($exists)->not->toBeEmpty();
+    expect($this->tenantDatabaseExists('db-provision'))->toBeTrue();
 });
 
 test('creating a tenant also creates a domain record', function () {
@@ -257,6 +252,7 @@ test('tenant id with valid characters is accepted', function () {
 
     $response->assertRedirect(route('central.tenants.index'));
     $this->createdTenantIds[] = 'valid-id_123';
+    expect($this->tenantDatabaseExists('valid-id_123'))->toBeTrue();
 });
 
 // ---------------------------------------------------------------------------
@@ -387,10 +383,6 @@ test('deleting a tenant drops its database', function () {
     $admin = centralAdmin();
     $tenant = $this->createTenant('destroy-db', 'destroy-db.test');
 
-    $prefix = config('tenancy.database.prefix', 'tenant_');
-    $suffix = config('tenancy.database.suffix', '_db');
-    $dbName = $prefix.'destroy-db'.$suffix;
-
     $this->actingAs($admin, 'central')
         ->delete(route('central.tenants.destroy', $tenant));
 
@@ -399,9 +391,7 @@ test('deleting a tenant drops its database', function () {
         fn ($id) => $id !== 'destroy-db',
     );
 
-    $exists = DB::select('SELECT 1 FROM pg_database WHERE datname = ?', [$dbName]);
-
-    expect($exists)->toBeEmpty();
+    expect($this->tenantDatabaseMissing('destroy-db'))->toBeTrue();
 });
 
 test('deleting a non-existent tenant returns 404', function () {

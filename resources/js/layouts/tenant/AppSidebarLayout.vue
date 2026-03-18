@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Table } from 'lucide-vue-next';
+import { LayoutGrid, Table, Users } from 'lucide-vue-next';
 import AppContent from '@/components/AppContent.vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppShell from '@/components/AppShell.vue';
@@ -31,6 +31,11 @@ const mainNavItems: NavItem[] = [
         title: 'Products',
         href: '/products',
         icon: Table,
+    },
+    {
+        title: 'Customers',
+        href: '/customers',
+        icon: Users,
     },
 ];
 

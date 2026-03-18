@@ -43,6 +43,13 @@ Route::middleware([
 
             // Tenant product management CRUD
             Route::resource('products', ProductController::class)->names('products');
+
+            // Customer management
+            Route::name('customers.')->prefix('customers')->group(function () {
+                Route::get('/', [CustomerController::class, 'index'])->name('index');
+                Route::get('/{customer}', [CustomerController::class, 'show'])->name('show');
+                Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+            });
         });
 
         // Public shop

@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\CartController;
 use App\Http\Controllers\Tenant\CustomerAuthController;
+use App\Http\Controllers\Tenant\CustomerController;
+use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\ProductController;
 use App\Http\Controllers\Tenant\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +39,7 @@ Route::middleware([
         Route::middleware(['auth:tenant', 'verified'])->group(function () {
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-            Route::inertia('/dashboard', 'tenant/Dashboard')->name('dashboard');
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
             // Tenant product management CRUD
             Route::resource('products', ProductController::class)->names('products');

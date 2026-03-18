@@ -10,6 +10,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '',
     },
 ];
+
+defineProps<{
+    productsTotal: number;
+    productsActive: number;
+    productsInactive: number;
+}>();
 </script>
 
 <template>
@@ -21,19 +27,22 @@ const breadcrumbs: BreadcrumbItem[] = [
         >
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
+                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border flex flex-col items-center justify-center p-6 bg-white dark:bg-zinc-900 shadow-sm"
                 >
-                    <PlaceholderPattern />
+                    <dt class="text-sm font-medium text-muted-foreground truncate dark:text-zinc-400">Total Products</dt>
+                    <dd class="mt-1 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{{ productsTotal }}</dd>
                 </div>
                 <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
+                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border flex flex-col items-center justify-center p-6 bg-white dark:bg-zinc-900 shadow-sm"
                 >
-                    <PlaceholderPattern />
+                    <dt class="text-sm font-medium text-muted-foreground truncate dark:text-zinc-400">Active Products</dt>
+                    <dd class="mt-1 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{{ productsActive }}</dd>
                 </div>
                 <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
+                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border flex flex-col items-center justify-center p-6 bg-white dark:bg-zinc-900 shadow-sm"
                 >
-                    <PlaceholderPattern />
+                    <dt class="text-sm font-medium text-muted-foreground truncate dark:text-zinc-400">Inactive Products</dt>
+                    <dd class="mt-1 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{{ productsInactive }}</dd>
                 </div>
             </div>
             <div
